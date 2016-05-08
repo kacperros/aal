@@ -1,5 +1,7 @@
 import heapSelect
 import orderedSelects
+import quickSelect
+
 A = [1796, -1395, -1001, -1112, -980, 437, -2081, 364, 1261, 752, -1039, -1166, 2677]
 B = [272, 1586, 65, 1746, 854, -2088, -791, 367, 503, -2306, 126]
 
@@ -29,3 +31,8 @@ print(orderedSelects.binary_find_nth_smallest(A, B, n_min_heap))
 assert(orderedSelects.binary_find_nth_smallest(A, B, n_min_heap) == -1166)
 print(orderedSelects.binary_find_nth_smallest(A, B, n_max_heap))
 assert(orderedSelects.binary_find_nth_smallest(A, B, n_max_heap) == 1261)
+print("QuickSelect")
+print(quickSelect.find_nth_smallest(A, B, n_min_heap))
+assert(quickSelect.find_nth_smallest(A, B, n_min_heap) == -1166)
+print(quickSelect.find_nth_smallest(A, B, n_max_heap))
+assert(quickSelect.find_nth_smallest(A, B, n_max_heap) == 1261)

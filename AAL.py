@@ -1,6 +1,7 @@
 import random
 import heapq
 import generator
+import quickSelect
 import orderedSelects
 
 # print(generator.generate_ordered_positive(10))
@@ -21,3 +22,8 @@ if coin == 5 and var == 100:
 elif coin == 5:
     print(2)
 
+i = [5, 4, 3, 2, 1, 0]
+print(len(i))
+piv = quickSelect._partition(i, 0, 5, 3)
+print(piv)
+print(i)
