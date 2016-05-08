@@ -1,4 +1,5 @@
 import heapSelect
+import medianOfMedians
 import orderedSelects
 import quickSelect
 
@@ -12,6 +13,17 @@ print(heapSelect.find_nth_smallest(A, B, n_min_heap))
 assert(heapSelect.find_nth_smallest(A, B, n_min_heap) == -1166)
 print(heapSelect.find_nth_smallest(A, B, n_max_heap))
 assert(heapSelect.find_nth_smallest(A, B, n_max_heap) == 1261)
+print("QuickSelect")
+print(quickSelect.find_nth_smallest(A, B, n_min_heap))
+assert(quickSelect.find_nth_smallest(A, B, n_min_heap) == -1166)
+print(quickSelect.find_nth_smallest(A, B, n_max_heap))
+assert(quickSelect.find_nth_smallest(A, B, n_max_heap) == 1261)
+print("MedianOfMedians")
+print(medianOfMedians.find_nth_smallest(A, B, n_min_heap))
+assert(medianOfMedians.find_nth_smallest(A, B, n_min_heap) == -1166)
+print(medianOfMedians.find_nth_smallest(A, B, n_max_heap))
+assert(medianOfMedians.find_nth_smallest(A, B, n_max_heap) == 1261)
+assert(medianOfMedians.find_nth_smallest(A,B, 4) == -1395)
 
 print("Testing ordered Sorts")
 A.sort()
@@ -36,3 +48,9 @@ print(quickSelect.find_nth_smallest(A, B, n_min_heap))
 assert(quickSelect.find_nth_smallest(A, B, n_min_heap) == -1166)
 print(quickSelect.find_nth_smallest(A, B, n_max_heap))
 assert(quickSelect.find_nth_smallest(A, B, n_max_heap) == 1261)
+print("MedianOfMedians")
+print(medianOfMedians.find_nth_smallest(A, B, n_min_heap))
+assert(medianOfMedians.find_nth_smallest(A, B, n_min_heap) == -1166)
+print(medianOfMedians.find_nth_smallest(A, B, n_max_heap))
+assert(medianOfMedians.find_nth_smallest(A, B, n_max_heap) == 1261)
+assert(medianOfMedians.find_nth_smallest(A,B, 4) == -1395)
