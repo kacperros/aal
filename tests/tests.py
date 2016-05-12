@@ -1,6 +1,5 @@
-import Benchmark
-import generator
 from algorithms import binaryOrderedSelect, heapSelect, kOrderedSelect, medianOfMedians, quickSelect
+from utils import generator, Benchmark
 
 A = [1796, -1395, -1001, -1112, -980, 437, -2081, 364, 1261, 752, -1039, -1166, 2677]
 B = [272, 1586, 65, 1746, 854, -2088, -791, 367, 503, -2306, 126]
