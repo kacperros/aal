@@ -1,6 +1,9 @@
 import random
 
 
+name = 'Quick Select'
+
+
 def _partition(vector, left, right, pivot_index):
     pivot_value = vector[pivot_index]
     vector[pivot_index], vector[right] = vector[right], vector[pivot_index]

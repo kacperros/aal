@@ -1,6 +1,9 @@
 import heapq
 
 
+name = 'Heap Select'
+
+
 def find_nth_smallest(a, b, n):
     choice = _verify_condition(len(a), len(b), n)
     if choice:

@@ -1,4 +1,7 @@
-def binary_find_nth_smallest(a, b, n):
+name = 'Binary Ordered Select'
+
+
+def find_nth_smallest(a, b, n):
     return __nth_smallest_recursive(a, b, 0, 0, n)
 
 
@@ -26,21 +29,3 @@ def __half_list(list_halved):
     boundary = int(len(list_halved)/2)
     length = len(list_halved)
     return (list_halved[0:boundary], list_halved[boundary : length])
-
-
-def find_nth_smallest(a, b, n):
-    j = 0
-    k = 0
-    i = 1
-
-    while i < n:
-        if a[j] > b[k]:
-            k += 1
-        else:
-            j += 1
-        i += 1
-
-    if a[j] < b[k]:
-        return a[j]
-    else:
-        return b[k]

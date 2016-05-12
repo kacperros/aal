@@ -1,15 +1,19 @@
-import generator
-import heapSelect
-import medianOfMedians
-import orderedSelects
-import quickSelect
-import kivy
-from kivy.app import App
-from kivy.uix.button import Button
+a=[(1,2,3), (4,5,6)]
+print(a[1][1])
 
 
-class TestApp(App):
-    def build(self):
-        return Button(text='Hello World')
+def counter(n):
+    while n > 0:
+        print(n)
+        n -= 1
 
-TestApp().run()
+
+a = counter
+
+a(5)
+#
+# def main():
+#     print("Hello World")
+#
+# if __name__ == "__main__":
+#     main()
