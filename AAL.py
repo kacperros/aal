@@ -1,5 +1,11 @@
+import ast
+import fileinput
 import sys
 import getopt
+from pprint import pprint
+
+import utils.fileHelper
+import utils.Benchmark
 
 help_str = 'Well, you seem to have gotten it a tad mixed up.\n ' \
            'So here is the drill: \n' \
@@ -33,7 +39,7 @@ help_str = 'Well, you seem to have gotten it a tad mixed up.\n ' \
            'aal --benchmark' \
            'Some valid examples:\n' \
            'aal -a a_file.txt -b b_file.txt -n 150\n' \
-           'aal -a a_file.txt -b b_file.txt -n 120 -M -Q' \
+           'aal -a a_file.txt -b b_file.txt -n 120 -M -Q\n' \
            'aal -c\n' \
            'aal -m\n' \
            'aal -g ordered_positive -f 150 -t 300 -F 50 -T 100 -S 4 -n 170\n' \
@@ -48,14 +54,12 @@ def main(argv):
     except getopt.GetoptError:
         print(help_str)
         sys.exit(2)
-    opts_args = setArgsFromOpts(opts, args)
-    validate_options_combination(opts_args)
+    opts_args = _setArgsFromOpts(opts, args)
+    _execute_with_opts(opts_args)
     print(opts_args)
-    print('Input file is ', opts_args.get("a"))
-    print('Output file is ', opts_args.get("b"))
 
 
-def setArgsFromOpts(opts, args):
+def _setArgsFromOpts(opts, args):
     result = {}
     k_order = False
     medians = False
@@ -63,7 +67,7 @@ def setArgsFromOpts(opts, args):
     quick = False
     heap = False
     for opt, arg in opts:
-        if opt == '-h':
+        if opt == "-h":
             result.update({"h": True})
         elif opt == "-a":
             result.update({"a": arg})
@@ -82,7 +86,7 @@ def setArgsFromOpts(opts, args):
         elif opt == "-B":
             binary = True
         elif opt == "-c":
-            result.update({"c", True})
+            result.update({"c": True})
         elif opt == "-g":
             result.update({"g": arg})
         elif opt == "-f":
@@ -97,6 +101,8 @@ def setArgsFromOpts(opts, args):
             result.update({"S": arg})
         elif opt == "-m":
             result.update({"m": arg})
+        elif opt == "--benchmark":
+            result.update({"benchmark": True})
     if not (k_order or medians or binary or quick or heap):
         result.update({"K": True, "M": True, "B": True, "Q": True, "H": True})
     else:
@@ -104,8 +110,67 @@ def setArgsFromOpts(opts, args):
     return result
 
 
-def validate_options_combination(opts_args):
-    pass
+def _execute_with_opts(opts_args):
+    data = []
+    if opts_args.get("h"):
+        print(help_str)
+        sys.exit(0)
+    if opts_args.get("a") is not None and opts_args.get("b") is not None and opts_args.get("n") is not None:
+        data.extend(__prep_data_from_ab_files(opts_args))
+    if opts_args.get("c"):
+        data.extend(__prep_data_from_input())
+    print(data)
+    if opts_args.get("g"):
+        #generator_type = __get_generator(opts_args.get("g"))
+    #     if opts_args.get("f") is not None and opts_args.get("t") is not None and opts_args.get("F") is not None \
+    #             and opts_args.get("T") is not None and opts_args.get("S") is not None:
+    #         data.extend(__generate_data_in_intervals(opts_args.get("f"), opts_args.get("t"), opts_args.get("F"),
+    #                                                  opts_args.get("T"), opts_args.get("S"), generator_type))
+    #     if opts_args.get("m") is not None:
+    #         data.extend(__generate_data_from_input())
+    # if opts_args.get("benchmark"):
+    #     data.extend(__produce_benchmark_data())
+    result = utils.Benchmark.benchmark(data, useBinarySelect=opts_args.get("B"),
+                                       useHeapSelect=opts_args.get("H"),
+                                       useKSelect=opts_args.get("K"),
+                                       useMedianOfMedians=opts_args.get("M"),
+                                       useQuickSelect=opts_args.get("Q"))
+    print(result)
+
+
+def __prep_data_from_ab_files(opts_args):
+    a_lists = utils.fileHelper.read_ab_file(opts_args.get("a"))
+    b_lists = utils.fileHelper.read_ab_file(opts_args.get("b"))
+    n = opts_args.get("n")
+    if len(a_lists) != len(b_lists):
+        print("Given files do not contain the same lengths of lists")
+        sys.exit(2)
+    data = __build_data(a_lists, b_lists, n)
+    return data
+
+
+def __build_data(a_lists, b_lists, n):
+    data = []
+    for i in range(0, len(a_lists)):
+        if int(n) > len(a_lists[i]) + len(b_lists[i]):
+            print("n must be less then both lists combined in length!")
+            sys.exit(2)
+        data.append((a_lists[i], b_lists[i], int(n)))
+    return data
+
+
+def __prep_data_from_input():
+    data = ''
+    for line in sys.stdin:
+        data += line
+    data = ast.literal_eval(data)
+    print(data)
+    return data
+
+
+def __generate_data_in_intervals(a_start, a_stop, b_start, b_stop, num_of_intervals):
+    return []
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

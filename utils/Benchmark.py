@@ -41,4 +41,4 @@ def __benchmark_algorithm(data, selecting_fun, name):
     result_num = selecting_fun(used_data[0], used_data[1], used_data[2])
     stop_time = time.clock()
     time_taken = stop_time - start_time
-    return(time_taken, result_num, name)
+    return(len(data[0]), len(data[1]), data[2], time_taken, result_num, name)
