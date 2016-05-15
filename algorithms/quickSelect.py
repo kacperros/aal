@@ -1,7 +1,7 @@
 import random
 
 
-name = 'Quick Select'
+name = 'Quick Select           '
 
 
 def _partition(vector, left, right, pivot_index):

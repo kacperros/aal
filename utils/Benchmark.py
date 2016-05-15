@@ -1,7 +1,7 @@
 import time
 
 import copy
-from algorithms import binaryOrderedSelect, heapSelect, kOrderedSelect, medianOfMedians, quickSelect
+from algorithms import binaryOrderedSelect, heapSelect, kOrderedSelect, medianOfMedians, quickSelect, bruteSelect
 
 
 def benchmark(data, useHeapSelect=True, useMedianOfMedians=True, useQuickSelect=True, useKSelect=True, useBinarySelect=True):
@@ -32,6 +32,7 @@ def _test_single_data_set(data, useHeapSelect=True, useMedianOfMedians=True, use
     if useBinarySelect:
         result = __benchmark_algorithm(data, binaryOrderedSelect.find_nth_smallest, binaryOrderedSelect.name)
         results.append(result)
+    results.append(__benchmark_algorithm(data, bruteSelect.find_nth_smallest, bruteSelect.name))
     return results
 
 
@@ -42,3 +43,7 @@ def __benchmark_algorithm(data, selecting_fun, name):
     stop_time = time.clock()
     time_taken = stop_time - start_time
     return(len(data[0]), len(data[1]), data[2], time_taken, result_num, name)
+
+
+def get_full_benchmark():
+    pass

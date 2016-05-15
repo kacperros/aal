@@ -1,4 +1,4 @@
-from algorithms import binaryOrderedSelect, heapSelect, kOrderedSelect, medianOfMedians, quickSelect
+from algorithms import binaryOrderedSelect, heapSelect, kOrderedSelect, medianOfMedians, quickSelect, bruteSelect
 from utils import generator, Benchmark
 
 A = [1796, -1395, -1001, -1112, -980, 437, -2081, 364, 1261, 752, -1039, -1166, 2677]
@@ -22,6 +22,9 @@ assert (medianOfMedians.find_nth_smallest(A, B, n_min_heap) == -1166)
 print(medianOfMedians.find_nth_smallest(A, B, n_max_heap))
 assert (medianOfMedians.find_nth_smallest(A, B, n_max_heap) == 1261)
 assert (medianOfMedians.find_nth_smallest(A, B, 4) == -1395)
+print(bruteSelect.find_nth_smallest(A, B, n_min_heap))
+assert (bruteSelect.find_nth_smallest(A, B, n_max_heap) == 1261)
+assert (bruteSelect.find_nth_smallest(A, B, n_min_heap) == -1166)
 
 print("Testing ordered Sorts")
 A.sort()

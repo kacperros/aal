@@ -1,4 +1,4 @@
-name = 'Median of Medians'
+name = 'Median of Medians    '
 
 
 def find_nth_smallest(A, B, n):

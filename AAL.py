@@ -6,6 +6,8 @@ from pprint import pprint
 
 import utils.fileHelper
 import utils.Benchmark
+import utils.generator
+import utils.myprettyprint
 
 help_str = 'Well, you seem to have gotten it a tad mixed up.\n ' \
            'So here is the drill: \n' \
@@ -56,7 +58,7 @@ def main(argv):
         sys.exit(2)
     opts_args = _setArgsFromOpts(opts, args)
     _execute_with_opts(opts_args)
-    print(opts_args)
+
 
 
 def _setArgsFromOpts(opts, args):
@@ -121,21 +123,23 @@ def _execute_with_opts(opts_args):
         data.extend(__prep_data_from_input())
     print(data)
     if opts_args.get("g"):
-        #generator_type = __get_generator(opts_args.get("g"))
-    #     if opts_args.get("f") is not None and opts_args.get("t") is not None and opts_args.get("F") is not None \
-    #             and opts_args.get("T") is not None and opts_args.get("S") is not None:
-    #         data.extend(__generate_data_in_intervals(opts_args.get("f"), opts_args.get("t"), opts_args.get("F"),
-    #                                                  opts_args.get("T"), opts_args.get("S"), generator_type))
-    #     if opts_args.get("m") is not None:
-    #         data.extend(__generate_data_from_input())
-    # if opts_args.get("benchmark"):
-    #     data.extend(__produce_benchmark_data())
+        generator_type = __get_generator(opts_args.get("g"))
+        if opts_args.get("f") is not None and opts_args.get("t") is not None and opts_args.get("F") is not None \
+                and opts_args.get("T") is not None and opts_args.get("S") is not None and opts_args.get("n") is not None:
+            data.extend(__generate_data_in_intervals(opts_args.get("f"), opts_args.get("t"), opts_args.get("F"),
+                                                     opts_args.get("T"), opts_args.get("S"),
+                                                     generator_type, opts_args.get("n")))
+        if opts_args.get("m") is not None:
+            data.extend(__generate_data_from_input(generator_type))
+    if opts_args.get("benchmark"):
+        data = __produce_benchmark_data()
     result = utils.Benchmark.benchmark(data, useBinarySelect=opts_args.get("B"),
                                        useHeapSelect=opts_args.get("H"),
                                        useKSelect=opts_args.get("K"),
                                        useMedianOfMedians=opts_args.get("M"),
                                        useQuickSelect=opts_args.get("Q"))
-    print(result)
+    utils.myprettyprint.my_pretty_print(result)
+    utils.myprettyprint.print_summary(result)
 
 
 def __prep_data_from_ab_files(opts_args):
@@ -164,12 +168,61 @@ def __prep_data_from_input():
     for line in sys.stdin:
         data += line
     data = ast.literal_eval(data)
-    print(data)
     return data
 
 
-def __generate_data_in_intervals(a_start, a_stop, b_start, b_stop, num_of_intervals):
-    return []
+def __get_generator(gen):
+    if gen == "ordered_positive":
+        return utils.generator.generate_ordered_positive
+    elif gen == "ordered_natural":
+        return utils.generator.generate_ordered_full_range
+    elif gen == "unordered_positive":
+        return utils.generator.generate_unordered_positive
+    elif gen == "unordered_natural":
+        return utils.generator.generate_unordered_full_range
+    else:
+        print("Incorrect generator option. Exiting")
+        sys.exit(2)
+
+
+def __generate_data_in_intervals(a_start, a_stop, b_start, b_stop, num_of_intervals, generator_type, n):
+    results = []
+    a_start = int(a_start)
+    a_stop = int(a_stop)
+    b_start = int(b_start)
+    b_stop = int(b_stop)
+    num_of_intervals = int(num_of_intervals)
+    if a_stop < a_start or b_stop < b_start or num_of_intervals > a_stop - a_start or num_of_intervals > b_stop - b_start:
+        print("Incorrect interval configuration or start stop index configuration")
+        sys.exit(2)
+    n = int(n)
+    a_step = int((a_stop - a_start)/num_of_intervals)
+    a_lengths_list = [a_start + x*a_step for x in range(0, num_of_intervals)]
+    b_step = int((b_stop - b_start)/num_of_intervals)
+    b_length_list = [b_start + y*b_step for y in range(0, num_of_intervals)]
+    for i in range(0, num_of_intervals):
+        a_list, b_list = generator_type(a_lengths_list[i], b_length_list[i])
+        results.append((a_list, b_list, n))
+    return results
+
+
+def __generate_data_from_input(generator_type):
+    data = ''
+    returned_data = []
+    for line in sys.stdin:
+        data += line
+    data = ast.literal_eval(data)
+    for data_node in data:
+        if int(data_node[0]) + int(data_node[1]) < int(data_node[2]):
+            print("Skipping ", data_node)
+            continue
+        a_list, b_list = generator_type(int(data_node[0]), int(data_node[1]))
+        returned_data.append((a_list, b_list, int(data_node[2])))
+    return returned_data
+
+
+def __produce_benchmark_data():
+    return utils.Benchmark.get_full_benchmark()
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-name = 'Ordered Pair Comparison'
+name = 'Ordered Pair Select  '
 
 
 def find_nth_smallest(a, b, n):

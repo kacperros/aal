@@ -1,7 +1,7 @@
 import heapq
 
 
-name = 'Heap Select'
+name = 'Modified Heap Select   '
 
 
 def find_nth_smallest(a, b, n):
