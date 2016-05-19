@@ -1,6 +1,13 @@
 import random
 
 
+def get_generators():
+    return [(generate_ordered_positive, True, 'Ordered Positives Generator'),
+            (generate_ordered_full_range, True, 'Ordered Natural Generator'),
+            (generate_unordered_positive, False, 'Unordered Positives Generator'),
+            (generate_unordered_full_range, False, 'Unordered Natural Generator')]
+
+
 def generate_ordered_positive(n, m):
     lower_bound = 0
     upper_bound = 2 * n * round(random.randint(50, 100))

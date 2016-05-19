@@ -132,7 +132,7 @@ def _execute_with_opts(opts_args):
         if opts_args.get("m") is not None:
             data.extend(__generate_data_from_input(generator_type))
     if opts_args.get("benchmark"):
-        data = __produce_benchmark_data()
+        utils.Benchmark.get_full_benchmark()
     result = utils.Benchmark.benchmark(data, useBinarySelect=opts_args.get("B"),
                                        useHeapSelect=opts_args.get("H"),
                                        useKSelect=opts_args.get("K"),
@@ -219,10 +219,6 @@ def __generate_data_from_input(generator_type):
         a_list, b_list = generator_type(int(data_node[0]), int(data_node[1]))
         returned_data.append((a_list, b_list, int(data_node[2])))
     return returned_data
-
-
-def __produce_benchmark_data():
-    return utils.Benchmark.get_full_benchmark()
 
 
 if __name__ == "__main__":
