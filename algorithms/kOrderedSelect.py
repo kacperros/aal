@@ -30,3 +30,7 @@ def find_nth_smallest(a, b, n):
             return b[k-1]
         else:
             return a[j-1]
+
+
+def calculate_theoretical_complexity(a_len, b_len, n):
+    return n

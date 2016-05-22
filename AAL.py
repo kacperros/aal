@@ -133,13 +133,13 @@ def _execute_with_opts(opts_args):
             data.extend(__generate_data_from_input(generator_type))
     if opts_args.get("benchmark"):
         utils.Benchmark.get_full_benchmark()
+        return
     result = utils.Benchmark.benchmark(data, useBinarySelect=opts_args.get("B"),
                                        useHeapSelect=opts_args.get("H"),
                                        useKSelect=opts_args.get("K"),
                                        useMedianOfMedians=opts_args.get("M"),
                                        useQuickSelect=opts_args.get("Q"))
-    utils.myprettyprint.my_pretty_print(result)
-    utils.myprettyprint.print_summary(result)
+    utils.myprettyprint.my_result_print(result)
 
 
 def __prep_data_from_ab_files(opts_args):

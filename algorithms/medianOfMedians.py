@@ -37,3 +37,15 @@ def select(vector, n):
         return equal_list[0]
     else:
         return select(greater_list, n - len(less_list) - len(equal_list))
+
+
+def calculate_theoretical_complexity(a_len, b_len, n):
+    z = a_len + b_len
+    return __complexity_subroutine(z)
+
+
+def __complexity_subroutine(z):
+    if z < 1:
+        return 0
+    else:
+        return __complexity_subroutine(int(z/5)) + __complexity_subroutine(int(7*z/10)) + z

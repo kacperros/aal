@@ -1,3 +1,6 @@
+import math
+
+
 name = 'Brute Force Select       '
 
 
@@ -33,3 +36,7 @@ def __merge_sort(data):
             data[k] = right_half[j]
             j += 1
             k += 1
+
+
+def calculate_theoretical_complexity(a_len, b_len, n):
+    return (a_len + b_len) * math.log2(a_len + b_len)

@@ -1,18 +1,18 @@
 import heapq
-
+import math
 
 name = 'Modified Heap Select   '
 
 
 def find_nth_smallest(a, b, n):
-    choice = _verify_condition(len(a), len(b), n)
+    choice = _verify_use_min_heap(len(a), len(b), n)
     if choice:
         return _min_heap_find(a, b, n)
     else:
         return _max_heap_find(a, b, n)
 
 
-def _verify_condition(a_length, b_length, n):
+def _verify_use_min_heap(a_length, b_length, n):
     z = a_length + b_length
     return z ** n < n ** (2 * (z - n))
 
@@ -41,3 +41,10 @@ def __prep_max_heap_sort(a, b, n):
     list_to_heapify = [-x for x in list_to_heapify]
     heapq.heapify(list_to_heapify)
     return (list_to_heapify, combined_list)
+
+
+def calculate_theoretical_complexity(a_len, b_len, n):
+    if _verify_use_min_heap(a_len, b_len, n):
+        return a_len + b_len + n * math.log2(a_len + b_len)
+    else:
+        return a_len + b_len + 2 * (a_len + b_len - n) * math.log2(n)

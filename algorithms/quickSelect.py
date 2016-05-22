@@ -34,3 +34,15 @@ def find_nth_smallest(A, B, n):
     vector = A+B
     n -= 1
     return _select(vector, 0, len(vector)-1, n)
+
+
+def calculate_theoretical_complexity(a_len, b_len, n):
+    z = a_len + b_len
+    return _calculate_theoretical_complexity(z)
+
+
+def _calculate_theoretical_complexity(z):
+    if z < 1:
+        return 0
+    else:
+        return z + _calculate_theoretical_complexity(int(z/2))

@@ -1,3 +1,5 @@
+import math
+
 name = 'Binary Ordered Select'
 
 
@@ -29,3 +31,7 @@ def __half_list(list_halved):
     boundary = int(len(list_halved)/2)
     length = len(list_halved)
     return (list_halved[0:boundary], list_halved[boundary : length])
+
+
+def calculate_theoretical_complexity(a_len, b_len, n):
+    return math.log2(a_len) + math.log2(b_len)
