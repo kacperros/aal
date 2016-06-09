@@ -22,14 +22,22 @@ def __calculate_q(result_cell, median):
 
 
 def pretty_print_result(result):
-    print("+Algorithm Used: ", result[5],
+    print("N: ", '%10d' % result[2],
           "\tNumber found: ", '%10d' % result[4],
-          "\tTime taken [s]: ", '%20.9f' % result[3],
-          "\tList A length: ", '%10d' % result[0],
-          "\tList B length: ", '%10d' % result[1],
-          "\tN: ", '%10d' % result[2],
-          "\tq: ", '%2.3f' % result[6]
+          "\tAvg time taken [s]: ", '%20.9f' % result[3],
+          "\tStd deviation: ", '%5.5f' % result[6],
+          # "\tList A length: ", '%10d' % result[0],
+          # "\tList B length: ", '%10d' % result[1],
+          "\tq: ", '%2.3f' % result[7]
           )
+
+# def pretty_print_result(result):
+#     print('%20.9f' % result[3], ";",
+#           '%5.5f' % result[6], ";",
+#           # "\tList A length: ", '%10d' % result[0],
+#           # "\tList B length: ", '%10d' % result[1],
+#           '%2.3f' % result[7]
+#           )
 
 
 def benchmark_pretty_print(benchmark_results):
@@ -46,7 +54,13 @@ def benchmark_pretty_print(benchmark_results):
                 k += 1
                 continue
             print(algorithm_node[k % len(algorithms)][5])
+            a_len = 0
+            b_len = 0
             for results_node in algorithm_node:
+                if results_node[0] != a_len or results_node[1] != b_len:
+                    a_len = results_node[0]
+                    b_len = results_node[1]
+                    print("List A size: ", '%10d' % a_len, "\t List B size: ", '%10d' % b_len)
                 results_node.append(__calculate_q(results_node, __get_proper_median(results_node, medians)))
                 pretty_print_result(results_node)
             k += 1

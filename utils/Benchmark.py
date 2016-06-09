@@ -1,5 +1,5 @@
 import time
-from locale import currency
+import numpy
 
 import copy
 from algorithms import binaryOrderedSelect, heapSelect, kOrderedSelect, medianOfMedians, quickSelect, bruteSelect
@@ -63,12 +63,18 @@ def _test_single_data_set(data, useHeapSelect=True, useMedianOfMedians=True, use
 
 
 def __benchmark_algorithm(data, selecting_fun, name):
-    used_data = copy.copy(data)
-    start_time = time.clock()
-    result_num = selecting_fun(used_data[0], used_data[1], used_data[2])
-    stop_time = time.clock()
-    time_taken = stop_time - start_time
-    return [len(data[0]), len(data[1]), data[2], time_taken, result_num, name]
+    times = []
+    result_num = 0
+    for i in range(0, 10):
+        used_data = copy.copy(data)
+        start_time = time.clock()
+        result_num = selecting_fun(used_data[0], used_data[1], used_data[2])
+        stop_time = time.clock()
+        time_taken = stop_time - start_time
+        times.append(time_taken)
+    avg_time = numpy.average(times)
+    std_deviation = numpy.std(times)
+    return [len(data[0]), len(data[1]), data[2], avg_time, result_num, name, std_deviation]
 
 
 def get_full_benchmark():
